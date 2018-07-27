@@ -23,7 +23,7 @@ public class PrintWordUtil {
         r1.setText(artInfo.getArtTitle());  
         r1.setFontFamily("黑体");
         r1.setFontSize(14);
-        r1.addBreak();
+       //r1.addBreak();
         
         
         XWPFParagraph author = doc2007.createParagraph();  
@@ -61,9 +61,6 @@ public class PrintWordUtil {
         r4.setFontFamily("黑体");
         r4.setFontSize(10);
         r4.setBold(true); 
-        r4.addBreak();
-        r4.addBreak();
-        r4.addBreak();
         r4.addBreak();
         r4.addBreak();
         

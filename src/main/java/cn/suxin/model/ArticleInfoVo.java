@@ -23,7 +23,7 @@ public class ArticleInfoVo implements Serializable{
     public void setQueryDate(String queryDate) {
         this.queryDate = queryDate;
     }
-    public List<ArticleInfo> getList() {
+    public List<ArticleInfo> getArtList() {
         return artList;
     }
     public void addList(ArticleInfo a) {

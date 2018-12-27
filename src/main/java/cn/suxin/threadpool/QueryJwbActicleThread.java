@@ -21,7 +21,9 @@ public class QueryJwbActicleThread  extends TaskThread  {
             for(String artId : articleIds) {
                 
                 ArticleInfo artInfo = (ArticleInfo) redisService.hmGet(Constant.CACHE_ARCTICLE_HASH, artId);
-                
+                if(artInfo.articleHasContent()) {
+                    continue;
+                }
                 JwbSpiderUtil.queryArticleDetal(artInfo);
                 redisService.hmSet(Constant.CACHE_ARCTICLE_HASH, artInfo.getArtId(), artInfo);
                 Thread.sleep(400);

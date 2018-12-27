@@ -69,11 +69,22 @@ public class ArticleInfo implements Serializable {
     }
 
     public String getFkDesc() {
-		return fkDesc;
-	}
+        return fkDesc;
+    }
 
+    public void setFkDesc(String fkDesc) {
+        this.fkDesc = fkDesc;
+    }
 
-	public boolean articleHasContent() {
+    public String getFkUrl() {
+        return fkUrl;
+    }
+
+    public void setFkUrl(String fkUrl) {
+        this.fkUrl = fkUrl;
+    }
+
+    public boolean articleHasContent() {
         if(StringUtils.isEmpty(this.artAhthor) || StringUtils.isEmpty(this.artContent)) {
             return false;
         }

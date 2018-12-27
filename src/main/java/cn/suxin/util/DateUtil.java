@@ -553,7 +553,27 @@ public class DateUtil
 		Date date = null;
 		try
 		{
-			date = form.parse(dateStr);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			date = sdf.parse(dateStr);
+		}
+		catch (ParseException e)
+		{
+			return null;
+		}
+		return new Timestamp(date.getTime());
+	}
+	
+	
+	public static Timestamp get10ClockOfToday()
+	{
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+		String dateStr = form.format(cal.getTime()) + " 10:00:00";
+		Date date = null;
+		try
+		{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			date = sdf.parse(dateStr);
 		}
 		catch (ParseException e)
 		{

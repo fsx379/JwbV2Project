@@ -1,5 +1,6 @@
 package cn.suxin.api;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,7 +58,15 @@ public class JwbWebController {
 		}
 		
 		if(startDate == null) {
-			startDate = DateUtil.getToday(DateUtil.getCurrentTimestamp());
+			Timestamp hour10 = DateUtil.get10ClockOfToday();
+			Timestamp currentTime = DateUtil.getCurrentTimestamp();
+			if(currentTime.compareTo(hour10) > 0) {
+				startDate = DateUtil.getToday(currentTime);
+			}else {
+				startDate = DateUtil.getIntervalBeginOfDay(currentTime, 1);
+			}
+			
+			
 			endDate = startDate;
 			queryDate = DateUtil.formatDate(startDate, "yyyy-MM-dd");
 		}
@@ -80,8 +89,8 @@ public class JwbWebController {
 				
 				if(articleVoLists != null && articleVoLists.size() > 0) {
 					for(ArticleInfoVo vo : articleVoLists) {
-						if(vo.getList() != null && vo.getList().size() > 0) {
-							for(ArticleInfo info : vo.getList()) {
+						if(vo.getArtList() != null && vo.getArtList().size() > 0) {
+							for(ArticleInfo info : vo.getArtList()) {
 								ArticleModelVO articlevo = new ArticleModelVO();
 								BeanUtils.copyProperties(info, articlevo);
 								

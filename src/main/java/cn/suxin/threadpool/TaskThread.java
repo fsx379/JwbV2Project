@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import cn.suxin.constant.Constant;
 import cn.suxin.model.TaskModel;
 import cn.suxin.redis.RedisService;
+import cn.suxin.util.JsonUtils;
 import cn.suxin.util.SpringContextHolder;
 
 public abstract class TaskThread implements Runnable{
@@ -25,11 +26,11 @@ public abstract class TaskThread implements Runnable{
     @Override
     public void run() {
         try {
+        	log.info("[TaskThread] " + JsonUtils.toJson(task));
             this.updateTaskStatus(Constant.TASK_RUNNING);
-            
             this.runTaskJob();
-            
             this.updateTaskStatus(Constant.TASK_END_SUCCESS);
+            log.info("[TaskThread] " + JsonUtils.toJson(task));
         } catch (Exception e) {
             this.updateTaskStatus(Constant.TASK_END_FAIL);
             log.error("[TaskThread] error! ", e);

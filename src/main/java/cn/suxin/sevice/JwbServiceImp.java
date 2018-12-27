@@ -3,7 +3,11 @@ package cn.suxin.sevice;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.suxin.constant.Constant;
@@ -100,6 +104,83 @@ public class JwbServiceImp implements JwbService {
         }
         return listAricleInfo;
     }
+
+
+	@Override
+	public boolean addPrintList(String artId) {
+		
+		if(StringUtils.isBlank(artId)) {
+			return false;
+		}
+		
+		ArticleInfo articleInfo = (ArticleInfo) redisService.hmGet(Constant.CACHE_ARCTICLE_HASH, artId);
+		if(articleInfo == null) {
+			return false;
+		}else {
+			if(StringUtils.isBlank(articleInfo.getArtAhthor())
+					|| StringUtils.isBlank(articleInfo.getArtContent())) {
+				String[] artList = new String[1];
+				artList[0] = artId;
+				this.startSpiderActicleDetailByArtIds(artList);
+			}
+			long scoure = DateUtil.formatString(articleInfo.getArtDate(), "yyyy-MM-dd").getTime();
+			redisService.zAdd(Constant.CACHE_PRINTARTLIST_ZSET, articleInfo.getArtId(),scoure );
+		}
+			
+		return true;
+	}
+
+	@Override
+	public long delFromPrintList(String artId) {
+		String[] artids = new String[1];
+		artids[0] = artId;
+		return redisService.zDel(Constant.CACHE_PRINTARTLIST_ZSET, artids);
+	}
+	
+	@Override
+	public boolean delAllPrintList() {
+		// TODO Auto-generated method stub
+		return redisService.del(Constant.CACHE_PRINTARTLIST_ZSET);
+	}
+	
+	@Override
+	public Set<String> getPrintList() {
+		long now = System.currentTimeMillis();
+		Set<String> artSet = new LinkedHashSet<String>();
+		Set<Object>  set = redisService.zrangeByScore(Constant.CACHE_PRINTARTLIST_ZSET, 0, now);
+		if(set != null && set.size() > 0) {
+			for(Object o : set) {
+				artSet.add((String) o);
+			}
+		}
+		
+		return artSet;
+	}
+
+
+	@Override
+	public List<ArticleInfo> getPrintArticleList() {
+		List<ArticleInfo> listAricleInfo =  null;
+		Set<String> printIdsSet = this.getPrintList();
+		if(printIdsSet != null && printIdsSet.size() > 0) {
+			List<String> artList = new ArrayList<String>();
+			artList.addAll(printIdsSet);
+			listAricleInfo = (List<ArticleInfo>) redisService.hmGetALL(Constant.CACHE_ARCTICLE_HASH, artList);
+		}
+		return listAricleInfo;
+	}
+
+
+	@Override
+	public ArticleInfo queryArticleDetail(String artId) {
+		return (ArticleInfo) redisService.hmGet(Constant.CACHE_ARCTICLE_HASH, artId);
+	}
+
+
+
+
+
+
 
 
 }

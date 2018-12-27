@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.ServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +24,9 @@ import cn.suxin.util.JsonUtils;
 
 @RestController
 @RequestMapping("/query")
-public class JwbController {
+public class TaskController {
 
-    private static Logger log = LoggerFactory.getLogger(JwbController.class);
+    private static Logger log = LoggerFactory.getLogger(TaskController.class);
     
     @Autowired
     JwbService jwbService;
@@ -53,6 +55,8 @@ public class JwbController {
                 Date endDate = DateUtil.formatString(endDateStr, DateUtil.DEFAULT_DATE_FORMAT);
                 
                 TaskModel model = jwbService.taskStart(taskDesc, startDate, endDate);
+                
+                Thread.sleep(3000);
                 
                 ret.put(Constant.RET_DETAIL, model);
                 ret.put(Constant.RET_CODE, 200);
@@ -228,29 +232,35 @@ public class JwbController {
         String artIds = request.getParameter("artIds");
         String path = request.getParameter("path");
         
-        if(StringUtils.isEmpty(artIds)) {
-            ret.put(Constant.RET_CODE, 401);
-            ret.put(Constant.RET_DESC, "参数有误！");
-        }else {
-            try {
-                
-                if(StringUtils.isEmpty(path)) {
-                    path = "E:\\jwb_" + DateUtil.formatDate(new Date(), DateUtil.FMT_YYYYMMDDHHMMSS)+".doc";
-                }
-                
-                String[] artIdList = artIds.split(",");
-                
-                TaskModel model = jwbService.startTaskForPrintWord(artIdList,path);
-                
-                ret.put(Constant.RET_DETAIL, model);
-                ret.put(Constant.RET_CODE, 200);
-                ret.put(Constant.RET_DESC, "已经提交！");
-            } catch (Exception e) {
-                ret.put(Constant.RET_CODE, 500);
-                ret.put(Constant.RET_DESC, "提交失败！");
-                e.printStackTrace();
+     try {
+            
+            if(StringUtils.isEmpty(path)) {
+                path = "E:\\jwb_" + DateUtil.formatDate(new Date(), DateUtil.FMT_YYYYMMDDHHMMSS)+".doc";
             }
+            
+            String[] artIdList = null;
+            
+            if(StringUtils.isEmpty(artIds)) {
+            	Set<String> setList = jwbService.getPrintList();
+            	if(setList != null && setList.size() >0) {
+            		artIdList = setList.toArray(new String[setList.size()]);
+            	}
+            }else {
+            	artIdList = artIds.split(",");
+            }
+            
+            
+            TaskModel model = jwbService.startTaskForPrintWord(artIdList,path);
+            log.info("[startTaskForPrintWord] model {} ", JsonUtils.toJson(model));
+            ret.put(Constant.RET_DETAIL, path);
+            ret.put(Constant.RET_CODE, 200);
+            ret.put(Constant.RET_DESC, "已经提交！");
+        } catch (Exception e) {
+            ret.put(Constant.RET_CODE, 500);
+            ret.put(Constant.RET_DESC, "提交失败！");
+            e.printStackTrace();
         }
+        
         log.info("[startTaskForPrintWord] ret {} ", JsonUtils.toJson(ret));
         return ret;
     }

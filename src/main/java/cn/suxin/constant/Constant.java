@@ -24,6 +24,7 @@ public class Constant {
     public final static String CACHE_PAGE_LIST_PRE = "page:"; //page_2018-15-12
     public final static String CACHE_ARCTICLE_HASH = "art:hash";
     
+    public final static String CACHE_PRINTARTLIST_ZSET = "printartlist";
     
     public final static String UA = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2";
     public final static String FK = "副刊";

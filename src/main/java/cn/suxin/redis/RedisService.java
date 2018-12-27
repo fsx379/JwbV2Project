@@ -15,6 +15,19 @@ public class RedisService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+    
+    public boolean del(String key) {
+        boolean result = false;
+        try {
+        	redisTemplate.delete(key);
+        	result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    
     /**
      * 写入缓存
      * @param key
@@ -204,9 +217,18 @@ public class RedisService {
      * @param scoure1
      * @return
      */
-    public Set<Object> rangeByScore(String key,double scoure,double scoure1){
+    public Set<Object> zrangeByScore(String key,double scoure,double scoure1){
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.rangeByScore(key, scoure, scoure1);
     }
+    
+    /**
+     * 有序集合的删除
+     */
+    public long zDel(String key,String[] values) {
+    	ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
+        return zset.remove(key, values);
+    }
+    
 }
 

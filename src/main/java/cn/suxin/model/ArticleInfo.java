@@ -1,6 +1,7 @@
 package cn.suxin.model;
 
 import java.io.Serializable;
+
 import org.springframework.util.StringUtils;
 import cn.suxin.constant.IniBean;
 
@@ -15,6 +16,7 @@ public class ArticleInfo implements Serializable {
     String artTitle;
     String artAhthor;
     String artContent;
+  
     
     String fkDesc;
     String fkUrl;
@@ -66,7 +68,12 @@ public class ArticleInfo implements Serializable {
         this.artContent = artContent;
     }
 
-    public boolean articleHasContent() {
+    public String getFkDesc() {
+		return fkDesc;
+	}
+
+
+	public boolean articleHasContent() {
         if(StringUtils.isEmpty(this.artAhthor) || StringUtils.isEmpty(this.artContent)) {
             return false;
         }

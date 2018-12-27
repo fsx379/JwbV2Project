@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 import cn.suxin.constant.Constant;
 import cn.suxin.model.ArticleInfo;
 import cn.suxin.model.FKInfo;
@@ -15,7 +17,6 @@ import cn.suxin.util.DateUtil;
 import cn.suxin.util.JsonUtils;
 
 public class QueryJwbPageThread extends TaskThread{
-   
     
     public QueryJwbPageThread(TaskModel task) {
         super(task);

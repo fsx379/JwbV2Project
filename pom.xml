@@ -6,7 +6,7 @@
 
 	<groupId>cn.suxin</groupId>
 	<artifactId>JwbV2Project</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 
 	<name>JwbV2Project</name>
@@ -23,6 +23,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<jsoup.version>1.11.2</jsoup.version>
+		<poi.version>3.8</poi.version>
+		<commons-lang3.version>3.3.2</commons-lang3.version>
+		<zxing.version>3.0.0</zxing.version>
 	</properties>
 
 	<dependencies>
@@ -47,7 +51,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.11.2</version>
+			<version>${jsoup.version}</version>
 		</dependency>
 
 
@@ -56,24 +60,55 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.8</version>
+			<version>${poi.version}</version>
 		</dependency>
 		<!-- 为POI支持Office Open XML -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.8</version>
+			<version>${poi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml-schemas</artifactId>
-			<version>3.8</version>
+			<version>${poi.version}</version>
 		</dependency>
 		<!-- 支持Word文档的操作 -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-scratchpad</artifactId>
-			<version>3.8</version>
+			<version>${poi.version}</version>
+		</dependency>
+
+		<!-- freemarker 依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
+
+		<!-- 热部署 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>${zxing.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>${zxing.version}</version>
 		</dependency>
 
 	</dependencies>
@@ -84,7 +119,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
 		</plugins>
+
 	</build>
 
 

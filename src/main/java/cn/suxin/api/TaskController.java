@@ -235,7 +235,7 @@ public class TaskController {
      try {
             
             if(StringUtils.isEmpty(path)) {
-                path = "E:\\jwb_" + DateUtil.formatDate(new Date(), DateUtil.FMT_YYYYMMDDHHMMSS)+".doc";
+                path = "D:\\jwb_" + DateUtil.formatDate(new Date(), DateUtil.FMT_YYYYMMDDHHMMSS)+".doc";
             }
             
             String[] artIdList = null;

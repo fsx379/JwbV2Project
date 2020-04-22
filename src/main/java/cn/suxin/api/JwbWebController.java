@@ -211,9 +211,14 @@ public class JwbWebController {
 			List<ArticleInfo> artList = jwbService.getPrintArticleList();
 			if(artList != null && artList.size() >0) {
 				for(ArticleInfo info : artList) {
-					ArticleModelVO vo = new ArticleModelVO();
-					BeanUtils.copyProperties(info, vo);
-					articleLists.add(vo);
+					if(info != null) {
+						ArticleModelVO vo = new ArticleModelVO();
+						BeanUtils.copyProperties(info, vo);
+						articleLists.add(vo);
+					}else {
+						logger.error("[getPrintLists]  info = {}" , JsonUtils.toJson(info));
+					}
+					
 				}
 			}
 			request.setAttribute("articleLists",articleLists);

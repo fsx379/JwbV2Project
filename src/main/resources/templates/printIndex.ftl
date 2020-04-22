@@ -130,6 +130,7 @@ table.oddsList td {
 	  <thead>
 	  <tr>
 	    <th class="f-w50">编号</th>
+	    <th class="f-w430">id</th>
 	    <th class="f-w430">副刊</th>
 	    <th class="f-w100">文章日期</th>
 	    <th class="f-w430">文章题目</th>
@@ -141,6 +142,7 @@ table.oddsList td {
 		  <#list articleLists as d>
 		  <tr>
 		    <td>${startNo?c}</td>
+		    <td>${d.artId!''}</td>
 		    <td>${d.artDate!''}</td>
 		    <td>${d.fkDesc!''}</td>
 		    <td>${d.artTitle!''}</td>

@@ -28,16 +28,21 @@ public class JwbSpiderUtil {
         try {
             Document doc = null;
 
-            int i = 3;
-            while (i > 0) {
+            int times = 1;
+            int timeOut = 5000;
+            long startTime = System.currentTimeMillis();
+            while (times < 5) {
                 try {
-                    doc = Jsoup.connect(url).header("User-Agent", Constant.UA).timeout(3000).get();
-                    i = -1;
+                    doc = Jsoup.connect(url).header("User-Agent", Constant.UA).timeout(timeOut).get();
+                    break;
                 } catch (Exception e) {
-                    i--;
+                	times++;
+                    timeOut = timeOut + 3000;
                 }
             }
-
+            long endTime = System.currentTimeMillis();
+            System.out.println("[getArtTime] times=" + times +" ,spend=" + (endTime - startTime) +"ms");
+            
             Element element = doc.getElementById("bmdhTable");
             Elements titles = element.select(".rigth_bmdh_href");
             if (titles != null && titles.size() > 0) {
@@ -115,7 +120,7 @@ public class JwbSpiderUtil {
             int i = 3;
             while (i > 0) {
                 try {
-                    doc = Jsoup.connect(artInfo.getArtUrl()).header("User-Agent", Constant.UA).timeout(3000).get();
+                    doc = Jsoup.connect(artInfo.getArtUrl()).header("User-Agent", Constant.UA).timeout(5000).get();
                     i = -1;
                 } catch (Exception e) {
                     i--;

@@ -31,17 +31,22 @@ public class PrintWordThread extends TaskThread {
 
 
             for (String artId : articleIds) {
+            	ArticleInfo artInfo = null;
+            	try {
+                    artInfo = (ArticleInfo) redisService.hmGet(Constant.CACHE_ARCTICLE_HASH,
+                            artId);
 
-                ArticleInfo artInfo = (ArticleInfo) redisService.hmGet(Constant.CACHE_ARCTICLE_HASH,
-                                artId);
+		            if (!artInfo.articleHasContent()) {
+		                JwbSpiderUtil.queryArticleDetal(artInfo);
+		                redisService.hmSet(Constant.CACHE_ARCTICLE_HASH, artInfo.getArtId(), artInfo);
+		            }
+		
+		            PrintWordUtil.createAricle2Word(artInfo, doc2007);
+		            Thread.sleep(10);
+				} catch (Exception e) {
+					log.info("[PrintWordThread] runTaskJob artId=" + artId +" , "+ JsonUtils.toJson(artInfo)  , e);
+				}
 
-                if (!artInfo.articleHasContent()) {
-                    JwbSpiderUtil.queryArticleDetal(artInfo);
-                    redisService.hmSet(Constant.CACHE_ARCTICLE_HASH, artInfo.getArtId(), artInfo);
-                }
-
-                PrintWordUtil.createAricle2Word(artInfo, doc2007);
-                Thread.sleep(10);
             }
 
             doc2007.write(fos);

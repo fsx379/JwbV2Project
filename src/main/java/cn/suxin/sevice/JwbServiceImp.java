@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import cn.suxin.util.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import cn.suxin.util.DateUtil;
 
 @Service
 public class JwbServiceImp implements JwbService {
+
 
     @Autowired
     RedisService redisService;
@@ -114,6 +116,8 @@ public class JwbServiceImp implements JwbService {
 		}
 		
 		ArticleInfo articleInfo = (ArticleInfo) redisService.hmGet(Constant.CACHE_ARCTICLE_HASH, artId);
+		String log = "getArtcle: " + artId + " " + JsonUtils.toJson(articleInfo);
+		System.out.println("[addPrintList] " +log);
 		if(articleInfo == null) {
 			return false;
 		}else {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import cn.suxin.constant.Constant;
 import cn.suxin.util.DateUtil;
+import cn.suxin.util.RandomUtil;
 
 public class TaskModel implements Serializable  {
     
@@ -37,7 +38,7 @@ public class TaskModel implements Serializable  {
     String path;
     
     public TaskModel() {
-        this.taskId = System.currentTimeMillis();
+        this.taskId = System.currentTimeMillis() + Long.valueOf(RandomUtil.generateNumberString(6));
         this.taskStatus = Constant.TASK_INI;
         this.taskCreaTime = System.currentTimeMillis();
         this.taskUpdateTime = this.taskCreaTime;
@@ -45,7 +46,7 @@ public class TaskModel implements Serializable  {
     
     public TaskModel(String taskDesc ,Date queryStartDate ,Date queryEndDate) {
         this.taskType = Constant.TASK_TYPE_PAGE;
-        this.taskId = System.currentTimeMillis();
+        this.taskId = System.currentTimeMillis() + Long.valueOf(RandomUtil.generateNumberString(6));
         this.taskStatus = Constant.TASK_INI;
         this.taskCreaTime = System.currentTimeMillis();
         this.taskUpdateTime = this.taskCreaTime;
@@ -60,7 +61,7 @@ public class TaskModel implements Serializable  {
     
     public TaskModel(String[] articleIds , String taskDesc ,int taskType) {
         this.taskType = taskType;
-        this.taskId = System.currentTimeMillis();
+        this.taskId = System.currentTimeMillis() + Long.valueOf(RandomUtil.generateNumberString(6));
         this.taskStatus = Constant.TASK_INI;
         this.taskCreaTime = System.currentTimeMillis();
         this.taskUpdateTime = this.taskCreaTime;

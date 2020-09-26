@@ -143,8 +143,8 @@ table.oddsList td {
 		  <tr>
 		    <td>${startNo?c}</td>
 		    <td>${d.artId!''}</td>
-		    <td>${d.artDate!''}</td>
 		    <td>${d.fkDesc!''}</td>
+			  <td>${d.artDate!''}</td>
 		    <td>${d.artTitle!''}</td>
 		    <td>${d.artAhthor!''}</td>
 		    <td>

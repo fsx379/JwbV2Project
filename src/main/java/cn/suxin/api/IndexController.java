@@ -24,7 +24,19 @@ public class IndexController {
 		
 		return;
 	}
-	
+
+	@RequestMapping(value = {"/kemit"})
+	public void getKemitIndex(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			response.sendRedirect("/kemit/index.html");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return;
+	}
+
+
 	@RequestMapping(value = {"/qr"})
     public void getQr(HttpServletRequest request, HttpServletResponse response) {
 		try {

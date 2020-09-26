@@ -148,6 +148,7 @@ table.oddsList td {
 	  <thead>
 	  <tr>
 	    <th class="f-w50">编号</th>
+          <th class="f-w430">id</th>
 	    <th class="f-w430">副刊</th>
 	    <th class="f-w100">文章日期</th>
 	    <th class="f-w430">文章题目</th>
@@ -160,20 +161,23 @@ table.oddsList td {
 	  <#list articleLists as d>
 	  <tr>
 	    <td>${startNo?c}</td>
+          <td>${d.artId!''}</td>
+          <td>${d.fkDesc!''}</td>
 	    <td>${d.artDate!''}</td>
-	    <td>${d.fkDesc!''}</td>
 	    <td>${d.artTitle!''}</td>
 	    <td>${d.artAhthor!''}</td>
 	    <td><#if d.collect==1> <font color='red'>已收藏</font><#else>未收藏</#if></td>
 	    <td>
 	    <#if d.collect==1>
-	     <input type="button" value="取消收藏"  onclick="delfromPrintList(${d.artId})" />
+	     <input type="button" value="取消收藏"  onclick="delfromPrintList(${d.artId!''})" />
 	    <#else>
-	     <input type="button" value="收藏"  onclick="addPrint(${d.artId})" />
+	     <input type="button" value="收藏"  onclick="addPrint(${d.artId!''})" />
 	    </#if>
 	    &nbsp;&nbsp;&nbsp;&nbsp;
 	     
 	      <input type="button" value="获取作者"  onclick="spiderArticleDetal(${d.artId})" />
+            &nbsp;&nbsp;&nbsp;
+            <a href="${detailAction}?artId=${d.artId}" target="_blank">详情</a>
 	     </td>
 	  </tr>
 	    <#assign startNo = startNo+1 />
@@ -223,7 +227,7 @@ table.oddsList td {
 
   function addPrint(el) {
     $.ajax({
-      type: "post",
+      type: "get",
       url: "/jwb/addPrintList",
       timeout : 10000,
       data: {
@@ -232,7 +236,7 @@ table.oddsList td {
       dataType: "json",
       success: function (data) {
         if (data.retCode == 200) {
-         	alert("添加成功！！");
+         	alert("添加成功！！" + el);
           window.location.href = "/jwb/lists?queryDate=${queryDate}";
         }
         else {

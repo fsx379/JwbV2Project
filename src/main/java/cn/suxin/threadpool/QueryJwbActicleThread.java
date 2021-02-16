@@ -26,6 +26,7 @@ public class QueryJwbActicleThread  extends TaskThread  {
                 }
                 JwbSpiderUtil.queryArticleDetal(artInfo);
                 redisService.hmSet(Constant.CACHE_ARCTICLE_HASH, artInfo.getArtId(), artInfo);
+                redisService.expire(Constant.CACHE_ARCTICLE_HASH);
                 Thread.sleep(400);
             }
         }

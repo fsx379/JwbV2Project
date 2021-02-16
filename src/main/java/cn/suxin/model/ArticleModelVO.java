@@ -91,9 +91,9 @@ public class ArticleModelVO implements Serializable {
 	public void setCollect(int collect) {
 		this.collect = collect;
 	}
-	
 	public String[]  getArtContentList() {
 		return  this.artContent.split(" ");
 	}
+
 
 }

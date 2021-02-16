@@ -13,8 +13,22 @@ import java.util.concurrent.TimeUnit;
 @Service("redisService")
 public class RedisService {
 
+    private  static final  long KEEP_TIME = 30;
+
     @Autowired
     private RedisTemplate redisTemplate;
+
+    public boolean expire(String key) {
+        boolean result = false;
+        try {
+            redisTemplate.expire(key , KEEP_TIME ,TimeUnit.DAYS);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     
     public boolean del(String key) {
         boolean result = false;
@@ -221,7 +235,28 @@ public class RedisService {
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.rangeByScore(key, scoure, scoure1);
     }
-    
+
+    /**
+     * 有序集合获取
+     * @param key
+     * @return
+     */
+    public Long zCard(String key){
+        ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
+        return zset.zCard(key);
+    }
+
+    /**
+     * 有序集合获取
+     * @param key
+     * @return
+     */
+    public Set<Object> zRange(String key , long start ,long end){
+        ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
+        return zset.range(key , start, end);
+    }
+
+
     /**
      * 有序集合的删除
      */

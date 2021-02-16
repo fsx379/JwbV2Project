@@ -111,6 +111,7 @@
 			<version>${zxing.version}</version>
 		</dependency>
 
+
 	</dependencies>
 
 	<build>

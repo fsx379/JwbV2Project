@@ -32,4 +32,9 @@ public class Constant {
     public final static int TASK_TYPE_PAGE = 1;
     public final static int TASK_TYPE_ACTICLE = 2;
     public final static int TASK_TYPE_PRINT = 3;
+
+
+    public final static String CACHE_XMWB_ART_HASH = "xmwb:art:hash";
+    public final static String CACHE_XMWB_PRINTARTLIST_ZSET = "xmwb:printartlist";
+
 }
